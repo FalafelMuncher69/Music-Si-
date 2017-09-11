@@ -1850,14 +1850,14 @@ class MusicBot(discord.Client):
                 for link in fin:
                     if player._current_entry.url in link:
                         link = ""
-                        self.send_message(channel, "Removed an instance of **%s** from the autoplaylist!" %(player._current_entry.title))
+                        await self.send_message(channel, "Removed an instance of **%s** from the autoplaylist!" %(player._current_entry.title))
                     fout.write(link)
 
             # Remove the old playlist file and replace it with the new one
             try:
                 os.replace(temp_playlist_file, self.config.auto_playlist_file)
             except OSError as ex:
-                self.send_message(channel, "There's a problem with the autoplaylist file. The updated playlist is available in %s if you want to manually overwrite the playlist file." %(temp_playlist_file))
+                await self.send_message(channel, "There's a problem with the autoplaylist file. The updated playlist is available in %s if you want to manually overwrite the playlist file." %(temp_playlist_file))
 
     async def cmd_gethistory(self, player, channel, server, limit=10):
         """
