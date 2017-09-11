@@ -1868,7 +1868,7 @@ class MusicBot(discord.Client):
         If n is specified, list the previous n songs (up to a max of 10).
         Otherwise just list 10.
         """
-        msg = ""
+        msg = "*Play History*\n"
         if limit > 10:
             # Don't allow requests of more than 10 to prevent spamming the chat
             msg += "*Soz, only going to show the last 10 so you don't spam the shit outta the chat.*\n"
@@ -1879,15 +1879,17 @@ class MusicBot(discord.Client):
         with open(PLAY_HISTORY_FILE) as hist_file:
             hist = hist_file.readlines()
             i = len(hist)
+            limit = min(limit,len(hist))
 
-            if limit > hist:
-                limit = hist
-
-            while i > hist - limit:
+            while i > len(hist) - limit:
                 i -= 1
                 urls.append(hist[i])
 
-        msg += "\n".join(urls)
+        if len(urls) == 0:
+            msg += "There is no play history to display, you daft twat."
+        else:
+            msg += "\n".join(urls)
+
         await self.send_message(channel, msg)
 
     async def cmd_summon(self, channel, server, author, voice_channel):
@@ -2047,6 +2049,7 @@ class MusicBot(discord.Client):
                 reply=True,
                 delete_after=20
             )
+
 
         else:
             # TODO: When a song gets skipped, delete the old x needed to skip messages

@@ -141,6 +141,11 @@ class MusicPlayer(EventEmitter, Serializable):
 
         self.emit('entry-added', player=self, playlist=playlist, entry=entry)
 
+    def add_to_history(url):
+        with open(PLAY_HISTORY_FILE, "a") as play_history_file:
+          play_history_file.write(self._current_entry.url)
+          play_history_file.write("\n")
+
     def skip(self):
         self._kill_current_player()
 
@@ -262,18 +267,11 @@ class MusicPlayer(EventEmitter, Serializable):
         if self.is_dead:
             return
 
-        ## Start history recorder ##
-        with open(PLAY_HISTORY_FILE, "a") as play_history_file:
-           if self._current_entry is not None:
-              play_history_file.write(self._current_entry.url)
-              play_history_file.write("\n")
-        ## End history recorder ##
-
         with await self._play_lock:
             if self.is_stopped or _continue:
                 try:
                     entry = await self.playlist.get_next_entry()
-
+                    self.add_to_history(entry.url)
                 except:
                     log.warning("Failed to get entry, retrying", exc_info=True)
                     self.loop.call_later(0.1, self.play)
