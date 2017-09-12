@@ -141,7 +141,7 @@ class MusicPlayer(EventEmitter, Serializable):
 
         self.emit('entry-added', player=self, playlist=playlist, entry=entry)
 
-    def add_to_history(url):
+    def add_to_history(self,url):
         with open(PLAY_HISTORY_FILE, "a") as play_history_file:
           play_history_file.write(self._current_entry.url)
           play_history_file.write("\n")
