@@ -271,7 +271,7 @@ class MusicPlayer(EventEmitter, Serializable):
             if self.is_stopped or _continue:
                 try:
                     entry = await self.playlist.get_next_entry()
-                    print(entry)
+                    print(dir(entry))
                     if entry is not None:
                         self.add_to_history(entry.url)
                 except:
