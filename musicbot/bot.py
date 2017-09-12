@@ -1868,6 +1868,12 @@ class MusicBot(discord.Client):
         If n is specified, list the previous n songs (up to a max of 10).
         Otherwise just list 10.
         """
+        try:
+            limit = int(limit)
+        except ValueError as ex:
+            self.send_message(channel, "The limit needs to be a number. How you menna limit a string? Think about this shit. Ffs.")
+            raise exceptions.CommandError(ex, expire_in=10)
+
         msg = "*Play History*\n"
         if limit > 10:
             # Don't allow requests of more than 10 to prevent spamming the chat
@@ -1875,7 +1881,7 @@ class MusicBot(discord.Client):
             limit = 10
 
         # Read the last n lines into the chat
-        urls = []
+        history_info = []
         with open(PLAY_HISTORY_FILE) as hist_file:
             hist = hist_file.readlines()
             i = len(hist)
@@ -1883,12 +1889,12 @@ class MusicBot(discord.Client):
 
             while i > len(hist) - limit:
                 i -= 1
-                urls.append(hist[i])
+                history_info.append(hist[i])
 
-        if len(urls) == 0:
+        if len(history_info) == 0:
             msg += "There is no play history to display, you daft twat."
         else:
-            msg += "\n".join(urls)
+            msg += "\n".join(history_info)
 
         await self.send_message(channel, msg)
 
