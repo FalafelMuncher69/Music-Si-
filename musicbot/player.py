@@ -271,7 +271,9 @@ class MusicPlayer(EventEmitter, Serializable):
             if self.is_stopped or _continue:
                 try:
                     entry = await self.playlist.get_next_entry()
-                    self.add_to_history(entry.url)
+                    print(entry)
+                    if entry is not None:
+                        self.add_to_history(entry.url)
                 except:
                     log.warning("Failed to get entry, retrying", exc_info=True)
                     self.loop.call_later(0.1, self.play)
