@@ -1835,7 +1835,7 @@ class MusicBot(discord.Client):
             await self.send_message(channel, "**%s** is already in the autoplaylist!" % (player.current_entry.title))
 
     async def cmd_howmanysongstho(self, player, channel, server, message):
-        await self.send_message(channel, "There are **%s** songs in the autoplaylist." %(len(player.autoplaylist))))
+        await self.send_message(channel, "There are **%s** songs in the autoplaylist." % (len(player.autoplaylist)))
 
     async def cmd_removenp(self, player, channel, server, message):
         """
