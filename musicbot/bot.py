@@ -1830,8 +1830,13 @@ class MusicBot(discord.Client):
             autoplaylist_file.write("\n")
             autoplaylist_file.close()
             await self.send_message(channel, "Added **%s** to the autoplaylist!" % (player.current_entry.title))
+            await self.send_message(channel, "There are now **%s** songs in the playlist. ARE YOU HAPPY NOWWWWWWW?" % (len(self.autoplaylist)))
         else:
             await self.send_message(channel, "**%s** is already in the autoplaylist!" % (player.current_entry.title))
+			
+    async def cmd_howmanysongstho(self, player, channel, server, message):
+        await self.send_message(channel, "There are **%s** songs in the autoplaylist." % (len(self.autoplaylist)))
+
 
     async def cmd_removenp(self, player, channel, server, message):
         """
