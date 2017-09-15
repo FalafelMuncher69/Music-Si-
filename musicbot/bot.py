@@ -1903,6 +1903,9 @@ class MusicBot(discord.Client):
 
         await self.send_message(channel, msg)
 
+    async def cmd_destroybaghdad(self, channel, server, author, voice_channel):
+        self.autoplaylist = []
+
     async def cmd_summon(self, channel, server, author, voice_channel):
         """
         Usage:
