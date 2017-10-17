@@ -627,8 +627,13 @@ class MusicBot(discord.Client):
     async def on_player_finished_playing(self, player, **_):
         if not player.playlist.entries and not player.current_entry and self.config.auto_playlist:
             while self.autoplaylist:
-                random.shuffle(self.autoplaylist)
-                song_url = random.choice(self.autoplaylist)
+                #random.shuffle(self.autoplaylist)
+                #song_url = random.choice(self.autoplaylist)
+                
+                # Current randomisation is proving to not be random enough and results in the same set of songs playing repeatedly
+                # Instead using SystemRandom()
+                rand = random.SystemRandom()
+                song_url = rand.choice(self.autoplaylist)
 
                 info = {}
 
